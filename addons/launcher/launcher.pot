@@ -33,15 +33,15 @@ msgstr ""
 msgid "     <- installed"
 msgstr ""
 
-#: addons/launcher/launcher.gd:661
+#: addons/launcher/launcher.gd:692
 msgid "%.1f KB"
 msgstr ""
 
-#: addons/launcher/launcher.gd:662
+#: addons/launcher/launcher.gd:693
 msgid "%.1f MB"
 msgstr ""
 
-#: addons/launcher/launcher.gd:659
+#: addons/launcher/launcher.gd:690
 msgid "%d B"
 msgstr ""
 

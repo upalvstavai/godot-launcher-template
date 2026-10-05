@@ -606,6 +606,9 @@ func _show_overlay(title: String, body: String, primary_text: String,
 	_overlay_secondary.visible = not secondary_text.is_empty()
 	_overlay_text_cap = scroll_height
 	_fit_overlay()
+	# Keep keyboard and gamepad focus inside the modal overlay. The overlay has
+	# focus_behavior_recursive enabled in the scene, so its controls stay active.
+	focus_behavior_recursive = FOCUS_BEHAVIOR_DISABLED
 	_overlay.show()
 	if not _resaying:
 		_overlay_primary.grab_focus()
@@ -641,10 +644,38 @@ func _fit_overlay() -> void:
 
 func _hide_overlay() -> void:
 	_overlay.hide()
+	focus_behavior_recursive = FOCUS_BEHAVIOR_INHERITED
 	_overlay_action = Callable()
 	_overlay_resay = Callable()
 	if _first_button != null:
 		_first_button.grab_focus()
+
+
+## Scrolls an open overlay from the keyboard or a gamepad. ScrollContainer does
+## not handle these actions itself even while focused.
+func _input(event: InputEvent) -> void:
+	if not _overlay.visible:
+		return
+	var line := _overlay_body.get_line_height() + _overlay_body.get_theme_constant("line_spacing")
+	var page := maxf(_overlay_scroll.size.y - line, line)
+	var by := 0.0
+	if event.is_action_pressed("ui_down", true):
+		by = 3 * line
+	elif event.is_action_pressed("ui_up", true):
+		by = -3 * line
+	elif event.is_action_pressed("ui_page_down", true):
+		by = page
+	elif event.is_action_pressed("ui_page_up", true):
+		by = -page
+	elif event.is_action_pressed("ui_end"):
+		by = INF
+	elif event.is_action_pressed("ui_home"):
+		by = -INF
+	if by == 0.0:
+		return
+	_overlay_scroll.scroll_vertical = int(clampf(_overlay_scroll.scroll_vertical + by,
+		0.0, _overlay_scroll.get_v_scroll_bar().max_value))
+	get_viewport().set_input_as_handled()
 
 
 func _on_overlay_primary() -> void:
