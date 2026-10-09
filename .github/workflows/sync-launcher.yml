@@ -88,7 +88,7 @@ jobs:
           bash ci/collect_changes.sh || true
           bash ci/prepare_build.sh
           ~/godot/godot --headless --path . --import
-          ~/godot/godot --headless --path . --quit-after 120
+          bash ci/check_godot_boot.sh ~/godot/godot --headless --path . --quit-after 120
           # prepare_build.sh stamps generated values; keep them out of the PR.
           #
           # One pathspec at a time, and only for files git actually tracks.

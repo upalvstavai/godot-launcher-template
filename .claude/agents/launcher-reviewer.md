@@ -78,7 +78,7 @@ There is no test suite yet, so the import-and-boot check is the safety net:
 
 ```bash
 ~/godot/godot --headless --path . --import
-~/godot/godot --headless --path . --quit-after 180
+bash ci/check_godot_boot.sh ~/godot/godot --headless --path . --quit-after 180
 ```
 
 That catches parse errors, bad preloads, and broken scene references. It does

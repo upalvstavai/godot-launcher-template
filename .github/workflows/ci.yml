@@ -101,7 +101,7 @@ jobs:
       - name: Check for script and scene errors
         # Loads every autoload and the main scene, then quits. Any parse error,
         # bad preload or broken scene reference fails the job here.
-        run: ~/godot/godot --headless --path . --quit-after 120
+        run: bash ci/check_godot_boot.sh ~/godot/godot --headless --path . --quit-after 120
 
       - name: Export Android APK
         env:

@@ -109,7 +109,7 @@ python3 -m py_compile ci/make_manifest.py
 bash -n ci/*.sh
 shellcheck --severity=warning ci/*.sh                    # if installed
 ~/godot/godot --headless --path . --import && \
-  ~/godot/godot --headless --path . --quit-after 120     # if Godot is installed
+  bash ci/check_godot_boot.sh ~/godot/godot --headless --path . --quit-after 120
 ```
 
 Say which of these you actually ran. If a tool is missing from the environment,
